@@ -1,26 +1,30 @@
 env:
-    MANIFEST: https://github.com/PixelExperience/manifest.git -b eleven-plus
-    DEVICE: miatoll
+    MANIFEST: https://github.com/crdroidandroid/android.git -b 11.0
+    DEVICE: lavender
     OEM: xiaomi
-    DT_LINK: https://github.com/PixelExperience-Devices/device_xiaomi_miatoll.git
+    DT_LINK: https://github.com/mitmac29/device_xiaomi_lavender1.git -b 11
     DT_PATH: device/$OEM/$DEVICE
-    VT_LINK: https://gitlab.pixelexperience.org/android/vendor-blobs/vendor_xiaomi_miatoll.git
+    VT_LINK: https://github.com/mitmac29/vendor_xiaomi_lavender1.git -b 11
     VT_PATH: vendor/$OEM/$DEVICE
-    KT_LINK: https://github.com/ArrowOS-Devices/android_kernel_xiaomi_sm6250.git
-    PLATFORM: sm6250
-    KT_PATH: kernel/$OEM/$PLATFORM
+    KT_LINK: https://github.com/mitmac29/kernel_xiaomi_lavender.git -b qti-oldcam
+    PLATFORM: lavender
+    KT_PATH: kernel/$OEM/lavender
+    VP_LINK: https://github.com/mitmac29/packages_apps_ViPER4AndroidFX.git -b main
+    VP_PATH: packages/apps/ViPER4AndroidFX
+    CL_LINK: https://gitlab.com/sanjeevstunner/clang-r450784d.git
+    CL_PATH: prebuilts/clang/host/linux-x86/clang-r450784d
     TARGET: bacon
     EXTRA_CMD: export SKIP_ABI_CHECKS=true
-    LUNCH_COMBO: aosp_${DEVICE}-userdebug
-    OUTPUT: PixelExperience*.zip
+    LUNCH_COMBO: lineage_${DEVICE}-userdebug
+    OUTPUT: crDroidAndroid*.zip
 
 task:
   name: "Setting Up, Syncing, Building and Uploading..."
   timeout_in: 240m  
   container:
       image: ghcr.io/sushrut1101/docker:arch
-      cpu: 4
-      memory: 16G
+      cpu: 8
+      memory: 32G
 
 
 
@@ -40,6 +44,8 @@ task:
       - git clone $DT_LINK $DT_PATH
       - git clone $VT_LINK $VT_PATH
       - git clone $KT_LINK $KT_PATH
+      - git clone $VP_LINK $VP_PATH
+      - git clone $CL_LINK $CL_PATH
       - echo "============================"
       - echo "Syncing Complete!"
       - echo "============================"
@@ -74,5 +80,3 @@ task:
       - echo "----------------------------"
       - cat link.txt && echo " "
       - echo "============================"
-        
-
